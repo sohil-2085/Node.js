@@ -1,12 +1,8 @@
 import express from "express";
 import { readFile } from "fs/promises";
+import { getProducts, getProductById } from "./module/product.js";
 
 const app = express();
-
-const getProducts = async () => {
-  const data = await readFile("./data/product.json", "utf-8");
-  return JSON.parse(data);
-};
 
 app.get("/", (req, res) => {
   res.send("home page");
@@ -18,10 +14,8 @@ app.get("/products", async (req, res) => {
 });
 
 app.get("/product/:id", async (req, res) => {
-  const products = await getProducts();
   const productId = Number(req.params.id);
-
-  const product = products.find((p) => p.id === productId);
+  const product = await getProductById(productId);
 
   if (!product) {
     return res.status(404).json({
