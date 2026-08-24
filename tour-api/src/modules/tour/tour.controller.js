@@ -18,8 +18,8 @@ export const createTourController = async (req, res) => {
 };
 
 export const getAllTourController = async (req, res) => {
-  const tours = await getAllTours();
-
+  const tours = await getAllTours(req.query);
+  console.log(req.query)
   res.status(200).json({
     status: "success",
     results: tours.length,

@@ -6,8 +6,18 @@ export const createTour = async (tourData) => {
   return tour;
 };
 
-export const getAllTours = async () => {
-  const tours = await Tour.find();
+export const getAllTours = async (query) => {
+  // const tours = await Tour.find(query);
+  const queryObj = { ...query };
+
+  const queryStr = JSON.stringify(queryObj).replace(
+    /\b(gte|gt|lte|lt)\b/g,
+    (match) => `$${match}`,
+  );
+
+  const mongoQuery = JSON.parse(queryStr);
+
+  const tours = await Tour.find(mongoQuery);
 
   return tours;
 };

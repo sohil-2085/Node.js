@@ -4,6 +4,7 @@ import tourRouter from "./modules/tour/tour.routes.js";
 const app = express();
 
 app.use(express.json());
+app.set("query parser", "extended");
 
 app.use("/api/v1/tours", tourRouter);
 
